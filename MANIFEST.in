@@ -1,0 +1,16 @@
+include AUTHORS
+include CHANGELOG
+include INSTALL
+include LICENSE
+include README.rst
+
+include docs/Makefile
+recursive-include docs .rst
+recursive-include docs .py
+
+recursive-include siteflags/locale *
+recursive-include siteflags/migrations .py
+
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * empty
