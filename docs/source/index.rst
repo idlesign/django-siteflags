@@ -51,4 +51,4 @@ Get involved into django-siteflags
 Also
 ----
 
-If the application is not what you want for content flagging/bookmarking, you might be interested in considering other choices — https://djangopackages.com/grids/bookmarking/
+If the application is not what you want for content flagging/bookmarking, you might be interested in considering other choices — https://www.djangopackages.com/grids/g/bookmarking/
