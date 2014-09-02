@@ -1,7 +1,11 @@
 django-siteflags changelog
 ==========================
 
+v0.2.0
+------
++ Implemented ModelWithFlag.get_flags_for_objects().
+
+
 v0.1.0
 ------
 + Basic functionality.
-
