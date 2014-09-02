@@ -29,6 +29,36 @@ class ModelWithFlagTest(unittest.TestCase):
     def setUp(self):
         self.user = create_user()
 
+    def test_get_flags_for_objects(self):
+        user2 = create_user()
+
+        article_1 = create_article()
+        article_2 = create_article()
+        article_3 = create_article()
+        articles_list = (article_1, article_2, article_3)
+
+        article_1.set_flag(self.user)
+        article_1.set_flag(user2)
+        article_2.set_flag(user2, status=33)
+
+        flags = ModelWithFlag.get_flags_for_objects(articles_list)
+
+        self.assertEqual(len(flags[article_1.pk]), 2)
+        self.assertEqual(len(flags[article_2.pk]), 1)
+        self.assertEqual(len(flags[article_3.pk]), 0)
+
+        flags = ModelWithFlag.get_flags_for_objects(articles_list, user=self.user)
+
+        self.assertEqual(len(flags[article_1.pk]), 1)
+        self.assertEqual(len(flags[article_2.pk]), 0)
+        self.assertEqual(len(flags[article_3.pk]), 0)
+
+        flags = ModelWithFlag.get_flags_for_objects(articles_list, status=33)
+
+        self.assertEqual(len(flags[article_1.pk]), 0)
+        self.assertEqual(len(flags[article_2.pk]), 1)
+        self.assertEqual(len(flags[article_3.pk]), 0)
+
     def test_set_flag(self):
 
         flag = create_article().set_flag(self.user, note='anote', status=10)

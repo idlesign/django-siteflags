@@ -14,7 +14,7 @@ Methods
     The dictionary is indexed by objects IDs.
     Each dict entry contains a list of associated flag objects.
 
-    :param list objects_list: Homogeneous objects list to get flags for.
+    :param list, QuerySet objects_list: Homogeneous objects list to get flags for.
     :param User user: Optional user filter
     :param int status: Optional status filter
 

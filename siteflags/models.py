@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from django.db import models, IntegrityError
+from django.db.models.query import QuerySet
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
@@ -65,7 +66,7 @@ class ModelWithFlag(models.Model):
         The dictionary is indexed by objects IDs.
         Each dict entry contains a list of associated flag objects.
 
-        :param list objects_list:
+        :param list, QuerySet objects_list:
         :param User user:
         :param int status:
         :return:
@@ -73,8 +74,12 @@ class ModelWithFlag(models.Model):
         if not objects_list or (user and not user.id):
             return {}
 
+        objects_ids = objects_list
+        if not isinstance(objects_list, QuerySet):
+            objects_ids = [obj.pk for obj in objects_list]
+
         filter_kwargs = {
-            'object_id__in': objects_list,
+            'object_id__in': objects_ids,
             'content_type': ContentType.objects.get_for_model(objects_list[0].__class__)  # Consider this list homogeneous.
         }
         cls.update_filter_dict(filter_kwargs, user, status)
