@@ -59,6 +59,38 @@ class ModelWithFlag(models.Model):
 
     flags = generic.GenericRelation(MODEL_FLAG)
 
+    @classmethod
+    def get_flags_for_objects(cls, objects_list, user=None, status=None):
+        """Returns a dictionary with flag objects associated with the given objects.
+        The dictionary is indexed by objects IDs.
+        Each dict entry contains a list of associated flag objects.
+
+        :param list objects_list:
+        :param User user:
+        :param int status:
+        :return:
+        """
+        if not objects_list or (user and not user.id):
+            return {}
+
+        filter_kwargs = {
+            'object_id__in': objects_list,
+            'content_type': ContentType.objects.get_for_model(objects_list[0].__class__)  # Consider this list homogeneous.
+        }
+        cls.update_filter_dict(filter_kwargs, user, status)
+        flags = get_model_class_from_string(MODEL_FLAG).objects.filter(**filter_kwargs)
+        flags_dict = defaultdict(list)
+        for flag in flags:
+            flags_dict[flag.object_id].append(flag)
+
+        result = {}
+        for obj in objects_list:
+            if obj.pk in flags_dict:
+                result[obj.pk] = flags_dict[obj.pk]
+            else:
+                result[obj.pk] = tuple()
+        return result
+
     def get_flags(self, user=None, status=None):
         """Returns flags for the object optionally filtered by status.
 

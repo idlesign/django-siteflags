@@ -8,6 +8,17 @@ ModelWithFlag Model
 Methods
 -------
 
+.. py:method:: get_flags_for_objects(objects_list, [user=None[, status=None]]):
+
+    Returns a dictionary with flag objects associated with the given objects.
+    The dictionary is indexed by objects IDs.
+    Each dict entry contains a list of associated flag objects.
+
+    :param list objects_list: Homogeneous objects list to get flags for.
+    :param User user: Optional user filter
+    :param int status: Optional status filter
+
+
 .. py:method:: get_flags([user=None[, status=None]]):
 
     Returns flags for the object optionally filtered by user and/or status.
