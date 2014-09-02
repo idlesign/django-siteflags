@@ -9,7 +9,10 @@ Description
 
 *Reusable application for Django allowing users to flag/bookmark site objects*
 
-Here will be an introductory description.
+
+So you want a user to be able to put some flags on certain site entities.
+
+Let's say you need a kind of bookmark powered service, or a site where content is flagged and moderated, or a simplified rating system or something similar.
 
 
 
