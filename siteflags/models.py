@@ -1,9 +1,12 @@
-from django.db import models
+from collections import defaultdict
+
+from django.db import models, IntegrityError
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
+from etc.toolbox import get_model_class_from_string
 
 from .settings import MODEL_FLAG
 from .utils import get_flag_model
@@ -88,7 +91,10 @@ class ModelWithFlag(models.Model):
             init_kwargs['status'] = status
 
         flag = get_flag_model()(**init_kwargs)
-        flag.save()
+        try:
+            flag.save()
+        except IntegrityError:  # Record already exists.
+            pass
         return flag
 
     def remove_flag(self, user=None, status=None):
