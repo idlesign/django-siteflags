@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 
 from django.db import models, IntegrityError
 from django.db.models.query import QuerySet
@@ -43,26 +43,41 @@ class FlagBase(models.Model):
         verbose_name_plural = _('Flags')
         unique_together = ('content_type', 'object_id', 'user', 'status')
 
-    def __str__(self):
-        return '%s:%s status %s' % (self.content_type, self.object_id, self.status)
+    @classmethod
+    def get_flags_for_types(cls, mdl_classes, user=None, status=None):
+        """Returns a dictionary with flag objects associated with the given model classes (types).
+        The dictionary is indexed by model classes.
+        Each dict entry contains a list of associated flag objects.
 
+        :param list mdl_classes:
+        :param User user:
+        :param int status:
+        :return:
+        """
+        if not mdl_classes or (user and not user.id):
+            return {}
 
-class Flag(FlagBase):
-    """Built-in flag class. Default functionality."""
+        types_for_models = ContentType.objects.get_for_models(*mdl_classes, for_concrete_models=False)
+        filter_kwargs = {'content_type__in': types_for_models.values()}
+        update_filter_dict(filter_kwargs, user, status)
 
+        flags = cls.objects.filter(**filter_kwargs).order_by('-time_created')
+        flags_dict = defaultdict(list)
+        for flag in flags:
+            flags_dict[flag.content_type_id].append(flag)
 
-class ModelWithFlag(models.Model):
-    """Helper base class for models with flags.
-
-    Inherit from this model to be able to mark model instances.
-
-    """
-
-    flags = generic.GenericRelation(MODEL_FLAG)
+        result = OrderedDict()  # Respect initial order.
+        for mdl_cls in mdl_classes:
+            content_type_id = types_for_models[mdl_cls].id
+            if content_type_id in flags_dict:
+                result[mdl_cls] = flags_dict[content_type_id]
+            else:
+                result[mdl_cls] = tuple()
+        return result
 
     @classmethod
     def get_flags_for_objects(cls, objects_list, user=None, status=None):
-        """Returns a dictionary with flag objects associated with the given objects.
+        """Returns a dictionary with flag objects associated with the given model objects.
         The dictionary is indexed by objects IDs.
         Each dict entry contains a list of associated flag objects.
 
@@ -80,10 +95,10 @@ class ModelWithFlag(models.Model):
 
         filter_kwargs = {
             'object_id__in': objects_ids,
-            'content_type': ContentType.objects.get_for_model(objects_list[0].__class__)  # Consider this list homogeneous.
+            'content_type': ContentType.objects.get_for_model(objects_list[0], for_concrete_model=False)  # Consider this list homogeneous.
         }
-        cls.update_filter_dict(filter_kwargs, user, status)
-        flags = get_model_class_from_string(MODEL_FLAG).objects.filter(**filter_kwargs)
+        update_filter_dict(filter_kwargs, user, status)
+        flags = cls.objects.filter(**filter_kwargs)
         flags_dict = defaultdict(list)
         for flag in flags:
             flags_dict[flag.object_id].append(flag)
@@ -96,6 +111,52 @@ class ModelWithFlag(models.Model):
                 result[obj.pk] = tuple()
         return result
 
+    def __str__(self):
+        return '%s:%s status %s' % (self.content_type, self.object_id, self.status)
+
+
+class Flag(FlagBase):
+    """Built-in flag class. Default functionality."""
+
+
+class ModelWithFlag(models.Model):
+    """Helper base class for models with flags.
+
+    Inherit from this model to be able to mark model instances.
+
+    """
+
+    flags = generic.GenericRelation(MODEL_FLAG)
+
+    class Meta:
+        abstract = True
+
+    @classmethod
+    def get_flags_for_types(cls, mdl_classes, user=None, status=None):
+        """Returns a dictionary with flag objects associated with the given model classes (types).
+        The dictionary is indexed by model classes.
+        Each dict entry contains a list of associated flag objects.
+
+        :param list mdl_classes:
+        :param User user:
+        :param int status:
+        :return:
+        """
+        return get_model_class_from_string(MODEL_FLAG).get_flags_for_types(mdl_classes, user=user, status=status)
+
+    @classmethod
+    def get_flags_for_objects(cls, objects_list, user=None, status=None):
+        """Returns a dictionary with flag objects associated with the given model objects.
+        The dictionary is indexed by objects IDs.
+        Each dict entry contains a list of associated flag objects.
+
+        :param list, QuerySet objects_list:
+        :param User user:
+        :param int status:
+        :return:
+        """
+        return get_model_class_from_string(MODEL_FLAG).get_flags_for_objects(objects_list, user=user, status=status)
+
     def get_flags(self, user=None, status=None):
         """Returns flags for the object optionally filtered by status.
 
@@ -104,7 +165,7 @@ class ModelWithFlag(models.Model):
         :return:
         """
         filter_kwargs = {}
-        self.update_filter_dict(filter_kwargs, user, status)
+        update_filter_dict(filter_kwargs, user, status)
         return self.flags.filter(**filter_kwargs).all()
 
     def set_flag(self, user, note=None, status=None):
@@ -145,7 +206,7 @@ class ModelWithFlag(models.Model):
             'content_type': ContentType.objects.get_for_model(self),
             'object_id': self.id
         }
-        self.update_filter_dict(filter_kwargs, user, status)
+        update_filter_dict(filter_kwargs, user, status)
         get_flag_model().objects.filter(**filter_kwargs).delete()
 
     def is_flagged(self, user=None, status=None):
@@ -159,17 +220,21 @@ class ModelWithFlag(models.Model):
             'content_type': ContentType.objects.get_for_model(self),
             'object_id': self.id,
         }
-        self.update_filter_dict(filter_kwargs, user, status)
+        update_filter_dict(filter_kwargs, user, status)
         return self.flags.filter(**filter_kwargs).count()
 
-    @classmethod
-    def update_filter_dict(cls, d, user, status):
-        if user is not None:
-            if not user.id:
-                return None
-            d['user'] = user
-        if status is not None:
-            d['status'] = status
 
-    class Meta:
-        abstract = True
+def update_filter_dict(d, user, status):
+    """Helper. Updates filter dict for a queryset.
+
+    :param dict d:
+    :param User|None user:
+    :param int|None status:
+    :return:
+    """
+    if user is not None:
+        if not user.id:
+            return None
+        d['user'] = user
+    if status is not None:
+        d['status'] = status

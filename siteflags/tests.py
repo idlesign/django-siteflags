@@ -4,7 +4,12 @@ from django.utils import unittest
 from django.db import models
 from django.contrib.auth.models import User
 
-from .models import ModelWithFlag
+from .models import ModelWithFlag, Flag
+
+
+class Comment(ModelWithFlag):
+
+    title = models.CharField('title', max_length=255)
 
 
 class Article(ModelWithFlag):
@@ -18,6 +23,12 @@ def create_user():
     return user
 
 
+def create_comment():
+    comment = Comment(title='comment%s' % uuid4().hex)
+    comment.save()
+    return comment
+
+
 def create_article():
     article = Article(title='article%s' % uuid4().hex)
     article.save()
@@ -28,6 +39,32 @@ class ModelWithFlagTest(unittest.TestCase):
     
     def setUp(self):
         self.user = create_user()
+
+    def test_get_flags_for_types(self):
+        Flag.objects.all().delete()  # Wipe.
+
+        user2 = create_user()
+
+        article_1 = create_article()
+        article_2 = create_article()
+        article_1.set_flag(self.user)
+        article_1.set_flag(user2)
+        article_2.set_flag(user2, status=44)
+
+        flags = ModelWithFlag.get_flags_for_types([Article, Comment])
+        self.assertEqual(len(flags), 2)
+        self.assertEqual(len(flags[Article]), 3)
+
+        comment_1 = create_comment()
+        comment_2 = create_comment()
+        comment_1.set_flag(user2)
+        comment_1.set_flag(self.user)
+        comment_2.set_flag(self.user, status=44)
+
+        flags = ModelWithFlag.get_flags_for_types([Article, Comment])
+        self.assertEqual(len(flags), 2)
+        self.assertEqual(len(flags[Article]), 3)
+        self.assertEqual(len(flags[Comment]), 3)
 
     def test_get_flags_for_objects(self):
         user2 = create_user()
@@ -42,19 +79,19 @@ class ModelWithFlagTest(unittest.TestCase):
         article_2.set_flag(user2, status=33)
 
         flags = ModelWithFlag.get_flags_for_objects(articles_list)
-
+        self.assertEqual(len(flags), len(articles_list))
         self.assertEqual(len(flags[article_1.pk]), 2)
         self.assertEqual(len(flags[article_2.pk]), 1)
         self.assertEqual(len(flags[article_3.pk]), 0)
 
         flags = ModelWithFlag.get_flags_for_objects(articles_list, user=self.user)
-
+        self.assertEqual(len(flags), len(articles_list))
         self.assertEqual(len(flags[article_1.pk]), 1)
         self.assertEqual(len(flags[article_2.pk]), 0)
         self.assertEqual(len(flags[article_3.pk]), 0)
 
         flags = ModelWithFlag.get_flags_for_objects(articles_list, status=33)
-
+        self.assertEqual(len(flags), len(articles_list))
         self.assertEqual(len(flags[article_1.pk]), 0)
         self.assertEqual(len(flags[article_2.pk]), 1)
         self.assertEqual(len(flags[article_3.pk]), 0)

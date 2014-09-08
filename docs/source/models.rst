@@ -8,6 +8,17 @@ ModelWithFlag Model
 Methods
 -------
 
+.. py:method:: get_flags_for_types(mdl_classes, [user=None[, status=None]]):
+
+    Returns a dictionary with flag objects associated with the given model classes (types).
+    The dictionary is indexed by model classes.
+    Each dict entry contains a list of associated flag objects.
+
+    :param list mdl_classes: Classes objects (types) list to get flags for.
+    :param User user: Optional user filter
+    :param int status: Optional status filter
+
+
 .. py:method:: get_flags_for_objects(objects_list, [user=None[, status=None]]):
 
     Returns a dictionary with flag objects associated with the given objects.
