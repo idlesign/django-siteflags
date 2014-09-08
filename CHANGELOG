@@ -1,6 +1,13 @@
 django-siteflags changelog
 ==========================
 
+
+v0.3.0
+------
++ Implemented ModelWithFlag.get_flags_for_types().
++ Django 1.7 ready.
+
+
 v0.2.0
 ------
 + Implemented ModelWithFlag.get_flags_for_objects().
