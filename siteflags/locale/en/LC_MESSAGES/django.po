@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-04 22:00+0700\n"
+"POT-Creation-Date: 2014-09-08 14:33+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,34 +17,38 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:24
-msgid "Note"
-msgstr ""
-
-#: models.py:25
-msgid "Status"
-msgstr ""
-
-#: models.py:27
-msgid "User"
+#: config.py:9
+msgid "Site Flags"
 msgstr ""
 
 #: models.py:28
-msgid "Date created"
+msgid "Note"
+msgstr ""
+
+#: models.py:29
+msgid "Status"
 msgstr ""
 
 #: models.py:31
-msgid "Object ID"
+msgid "User"
 msgstr ""
 
 #: models.py:32
+msgid "Date created"
+msgstr ""
+
+#: models.py:35
+msgid "Object ID"
+msgstr ""
+
+#: models.py:36
 msgid "Content type"
 msgstr ""
 
-#: models.py:38
+#: models.py:42
 msgid "Flag"
 msgstr ""
 
-#: models.py:39
+#: models.py:43
 msgid "Flags"
 msgstr ""
