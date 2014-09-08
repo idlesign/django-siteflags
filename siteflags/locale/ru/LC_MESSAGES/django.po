@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: django-siteflags\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-04 22:00+0700\n"
-"PO-Revision-Date: 2014-08-04 22:09+0700\n"
+"POT-Creation-Date: 2014-09-08 14:33+0700\n"
+"PO-Revision-Date: 2014-09-08 14:35+0700\n"
 "Last-Translator: Igor 'idle sign' Starikov <idlesign@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/django-siteflags/"
 "language/ru/)\n"
@@ -21,34 +21,38 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: models.py:24
+#: config.py:9
+msgid "Site Flags"
+msgstr "Флаги сайта"
+
+#: models.py:28
 msgid "Note"
 msgstr "Заметка"
 
-#: models.py:25
+#: models.py:29
 msgid "Status"
 msgstr "Статус"
 
-#: models.py:27
+#: models.py:31
 msgid "User"
 msgstr "Пользователь"
 
-#: models.py:28
+#: models.py:32
 msgid "Date created"
 msgstr "Дата создания"
 
-#: models.py:31
+#: models.py:35
 msgid "Object ID"
 msgstr "ID объекта"
 
-#: models.py:32
+#: models.py:36
 msgid "Content type"
 msgstr "Тип содержимого"
 
-#: models.py:38
+#: models.py:42
 msgid "Flag"
 msgstr "Флаг"
 
-#: models.py:39
+#: models.py:43
 msgid "Flags"
 msgstr "Флаги"
