@@ -33,11 +33,12 @@ class FlagBase(models.Model):
 
     # Here follows a link to an object.
     object_id = models.PositiveIntegerField(verbose_name=_('Object ID'), db_index=True)
-    content_type = models.ForeignKey(ContentType, verbose_name=_('Content type'), related_name='%(app_label)s_%(class)s_flags')
+    content_type = models.ForeignKey(
+        ContentType, verbose_name=_('Content type'), related_name='%(app_label)s_%(class)s_flags')
 
     linked_object = generic.GenericForeignKey()
 
-    class Meta:
+    class Meta(object):
         abstract = True
         verbose_name = _('Flag')
         verbose_name_plural = _('Flags')
@@ -95,7 +96,8 @@ class FlagBase(models.Model):
 
         filter_kwargs = {
             'object_id__in': objects_ids,
-            'content_type': ContentType.objects.get_for_model(objects_list[0], for_concrete_model=False)  # Consider this list homogeneous.
+            # Consider this list homogeneous.
+            'content_type': ContentType.objects.get_for_model(objects_list[0], for_concrete_model=False)
         }
         update_filter_dict(filter_kwargs, user, status)
         flags = cls.objects.filter(**filter_kwargs)
@@ -128,7 +130,7 @@ class ModelWithFlag(models.Model):
 
     flags = generic.GenericRelation(MODEL_FLAG)
 
-    class Meta:
+    class Meta(object):
         abstract = True
 
     @classmethod
