@@ -9,6 +9,15 @@ https://github.com/idlesign/django-siteflags
 .. image:: https://pypip.in/d/django-siteflags/badge.png
         :target: https://crate.io/packages/django-siteflags
 
+.. image:: https://coveralls.io/repos/idlesign/django-siteflags/badge.png
+    :target: https://coveralls.io/r/idlesign/django-siteflags
+
+.. image:: https://travis-ci.org/idlesign/django-siteflags.svg?branch=master
+    :target: https://travis-ci.org/idlesign/django-siteflags
+
+.. image:: https://landscape.io/github/idlesign/django-siteflags/master/landscape.svg?style=plastic
+   :target: https://landscape.io/github/idlesign/django-siteflags/master
+
 
 Description
 -----------
