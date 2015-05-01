@@ -45,7 +45,7 @@ class FlagBase(models.Model):
         unique_together = ('content_type', 'object_id', 'user', 'status')
 
     @classmethod
-    def get_flags_for_types(cls, mdl_classes, user=None, status=None):
+    def get_flags_for_types(cls, mdl_classes, user=None, status=None, allow_empty=True):
         """Returns a dictionary with flag objects associated with the given model classes (types).
         The dictionary is indexed by model classes.
         Each dict entry contains a list of associated flag objects.
@@ -53,6 +53,7 @@ class FlagBase(models.Model):
         :param list mdl_classes:
         :param User user:
         :param int status:
+        :param bool allow_empty: Flag. Include results for all given types, even those without associated flags.
         :return:
         """
         if not mdl_classes or (user and not user.id):
@@ -72,7 +73,7 @@ class FlagBase(models.Model):
             content_type_id = types_for_models[mdl_cls].id
             if content_type_id in flags_dict:
                 result[mdl_cls] = flags_dict[content_type_id]
-            else:
+            elif allow_empty:
                 result[mdl_cls] = tuple()
         return result
 
@@ -134,7 +135,7 @@ class ModelWithFlag(models.Model):
         abstract = True
 
     @classmethod
-    def get_flags_for_types(cls, mdl_classes, user=None, status=None):
+    def get_flags_for_types(cls, mdl_classes, user=None, status=None, allow_empty=True):
         """Returns a dictionary with flag objects associated with the given model classes (types).
         The dictionary is indexed by model classes.
         Each dict entry contains a list of associated flag objects.
@@ -142,9 +143,11 @@ class ModelWithFlag(models.Model):
         :param list mdl_classes:
         :param User user:
         :param int status:
+        :param bool allow_empty: Flag. Include results for all given types, even those without associated flags.
         :return:
         """
-        return get_model_class_from_string(MODEL_FLAG).get_flags_for_types(mdl_classes, user=user, status=status)
+        return get_model_class_from_string(MODEL_FLAG).get_flags_for_types(
+            mdl_classes, user=user, status=status, allow_empty=allow_empty)
 
     @classmethod
     def get_flags_for_objects(cls, objects_list, user=None, status=None):
