@@ -2,6 +2,12 @@ django-siteflags changelog
 ==========================
 
 
+Unreleased
+----------
+* IMPORTANT: Added migrations. Use `migrate siteflags --fake`.
++ Added `allow_empty` parameter support for get_flags_for_types() methods.
+
+
 v0.3.0
 ------
 + Implemented ModelWithFlag.get_flags_for_types().
