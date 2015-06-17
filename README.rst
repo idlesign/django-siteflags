@@ -3,20 +3,23 @@ django-siteflags
 https://github.com/idlesign/django-siteflags
 
 
-.. image:: https://badge.fury.io/py/django-siteflags.png
-    :target: http://badge.fury.io/py/django-siteflags
+.. image:: https://img.shields.io/pypi/v/nine.svg
+    :target: https://pypi.python.org/pypi/django-siteflags
 
-.. image:: https://pypip.in/d/django-siteflags/badge.png
-        :target: https://crate.io/packages/django-siteflags
+.. image:: https://img.shields.io/pypi/dm/django-siteflags.svg
+    :target: https://pypi.python.org/pypi/django-siteflags
 
-.. image:: https://coveralls.io/repos/idlesign/django-siteflags/badge.png
+.. image:: https://img.shields.io/pypi/l/django-siteflags.svg
+    :target: https://pypi.python.org/pypi/django-siteflags
+
+.. image:: https://img.shields.io/coveralls/idlesign/django-siteflags/master.svg
     :target: https://coveralls.io/r/idlesign/django-siteflags
 
-.. image:: https://travis-ci.org/idlesign/django-siteflags.svg?branch=master
+.. image:: https://img.shields.io/travis/idlesign/django-siteflags/master.svg
     :target: https://travis-ci.org/idlesign/django-siteflags
 
-.. image:: https://landscape.io/github/idlesign/django-siteflags/master/landscape.svg?style=plastic
-   :target: https://landscape.io/github/idlesign/django-siteflags/master
+.. image:: https://img.shields.io/codeclimate/github/idlesign/django-siteflags.svg
+   :target: https://codeclimate.com/github/idlesign/django-siteflags
 
 
 Description
