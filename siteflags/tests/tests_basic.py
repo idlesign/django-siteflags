@@ -1,20 +1,10 @@
 from uuid import uuid4
 
 from django.utils import unittest
-from django.db import models
 from django.contrib.auth.models import User
 
-from .models import ModelWithFlag, Flag
-
-
-class Comment(ModelWithFlag):
-
-    title = models.CharField('title', max_length=255)
-
-
-class Article(ModelWithFlag):
-
-    title = models.CharField('title', max_length=255)
+from siteflags.models import ModelWithFlag, Flag
+from .models import Comment, Article
 
 
 def create_user():

@@ -1,3 +1,3 @@
 [run]
 include = siteflags/*
-omit = siteflags/migrations/*, siteflags/south_migrations/*, siteflags/runtests.py, siteflags/tests.py, siteflags/admin.py, siteflags/config.py
+omit = siteflags/migrations/*, siteflags/south_migrations/*, siteflags/runtests.py, siteflags/tests/*, siteflags/admin.py, siteflags/config.py
