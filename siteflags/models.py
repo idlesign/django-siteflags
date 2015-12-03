@@ -6,7 +6,13 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
+
+try:
+    # Django <= 1.6
+    from django.contrib.contenttypes.generic import GenericForeignKey, GenericRelation
+except ImportError:
+    from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+
 from etc.toolbox import get_model_class_from_string
 
 from .settings import MODEL_FLAG
@@ -36,7 +42,7 @@ class FlagBase(models.Model):
     content_type = models.ForeignKey(
         ContentType, verbose_name=_('Content type'), related_name='%(app_label)s_%(class)s_flags')
 
-    linked_object = generic.GenericForeignKey()
+    linked_object = GenericForeignKey()
 
     class Meta(object):
         abstract = True
@@ -129,7 +135,7 @@ class ModelWithFlag(models.Model):
 
     """
 
-    flags = generic.GenericRelation(MODEL_FLAG)
+    flags = GenericRelation(MODEL_FLAG)
 
     class Meta(object):
         abstract = True

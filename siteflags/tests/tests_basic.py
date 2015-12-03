@@ -1,6 +1,6 @@
 from uuid import uuid4
+import unittest
 
-from django.utils import unittest
 from django.contrib.auth.models import User
 
 from siteflags.models import ModelWithFlag, Flag
