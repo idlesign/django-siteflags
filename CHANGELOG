@@ -2,6 +2,11 @@ django-siteflags changelog
 ==========================
 
 
+v0.4.1
+------
+* Django 1.9 compatibility improvements.
+
+
 v0.4.0
 ------
 * IMPORTANT: Added migrations. Use `migrate siteflags --fake`.
