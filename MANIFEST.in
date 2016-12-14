@@ -5,13 +5,13 @@ include LICENSE
 include README.rst
 
 include docs/Makefile
-recursive-include docs .rst
-recursive-include docs .py
+recursive-include docs *.rst
+recursive-include docs *.py
 
 recursive-include siteflags/tests *
 recursive-include siteflags/locale *
-recursive-include siteflags/migrations .py
-recursive-include siteflags/south_migrations .py
+recursive-include siteflags/migrations *.py
+recursive-include siteflags/south_migrations *.py
 
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
