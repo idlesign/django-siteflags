@@ -2,6 +2,11 @@ django-siteflags changelog
 ==========================
 
 
+Unreleased
+----------
+* Package distribution fix.
+
+
 v0.4.1
 ------
 * Django 1.9 compatibility improvements.
