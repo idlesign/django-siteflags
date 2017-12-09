@@ -1,23 +1,16 @@
 from collections import defaultdict, OrderedDict
 
+from django.conf import settings
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 from django.db import models, IntegrityError
 from django.db.models.query import QuerySet
-from django.conf import settings
-from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
-from django.contrib.contenttypes.models import ContentType
-
-try:
-    # Django <= 1.6
-    from django.contrib.contenttypes.generic import GenericForeignKey, GenericRelation
-except ImportError:
-    from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
-
+from django.utils.translation import ugettext_lazy as _
 from etc.toolbox import get_model_class_from_string
 
 from .settings import MODEL_FLAG
 from .utils import get_flag_model
-
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
@@ -34,13 +27,15 @@ class FlagBase(models.Model):
     note = models.TextField(_('Note'), blank=True)
     status = models.IntegerField(_('Status'), null=True, blank=True, db_index=True)
 
-    user = models.ForeignKey(USER_MODEL, related_name='%(class)s_users', verbose_name=_('User'))
+    user = models.ForeignKey(
+        USER_MODEL, related_name='%(class)s_users', verbose_name=_('User'), on_delete=models.CASCADE)
     time_created = models.DateTimeField(_('Date created'), auto_now_add=True)
 
     # Here follows a link to an object.
     object_id = models.PositiveIntegerField(verbose_name=_('Object ID'), db_index=True)
     content_type = models.ForeignKey(
-        ContentType, verbose_name=_('Content type'), related_name='%(app_label)s_%(class)s_flags')
+        ContentType, verbose_name=_('Content type'), related_name='%(app_label)s_%(class)s_flags',
+        on_delete=models.CASCADE)
 
     linked_object = GenericForeignKey()
 

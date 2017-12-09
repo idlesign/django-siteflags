@@ -6,18 +6,6 @@ Quickstart
     Add the **siteflags* application to INSTALLED_APPS in your settings file (usually 'settings.py').
 
 
-.. warning::
-
-    Those, who are using South <1.0 for migrations with Django <1.7, add this into settings file:
-
-    .. code-block:: python
-
-        SOUTH_MIGRATION_MODULES = {
-            'siteflags': 'siteflags.south_migrations',
-        }
-
-
-
 Let's suppose we want our users to report fake articles.
 
 Inherit you model from **siteflags.models.ModelWithFlag** and you're almost done.

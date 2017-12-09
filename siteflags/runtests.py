@@ -17,11 +17,8 @@ def main():
             MIDDLEWARE_CLASSES=global_settings.MIDDLEWARE_CLASSES,  # Prevents Django 1.7 warning.
         )
 
-    try:  # Django 1.7 +
-        from django import setup
-        setup()
-    except ImportError:
-        pass
+    from django import setup
+    setup()
 
     from django.test.utils import get_runner
     runner = get_runner(settings)()

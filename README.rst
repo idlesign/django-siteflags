@@ -6,9 +6,6 @@ https://github.com/idlesign/django-siteflags
 .. image:: https://img.shields.io/pypi/v/django-siteflags.svg
     :target: https://pypi.python.org/pypi/django-siteflags
 
-.. image:: https://img.shields.io/pypi/dm/django-siteflags.svg
-    :target: https://pypi.python.org/pypi/django-siteflags
-
 .. image:: https://img.shields.io/pypi/l/django-siteflags.svg
     :target: https://pypi.python.org/pypi/django-siteflags
 
