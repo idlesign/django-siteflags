@@ -11,11 +11,18 @@ def main():
     sys.path.insert(0, os.path.join(current_dir, '..'))
 
     if not settings.configured:
-        settings.configure(
+        configure_kwargs = dict(
             INSTALLED_APPS=('django.contrib.auth', 'django.contrib.contenttypes', app_name, '%s.tests' % app_name),
             DATABASES={'default': {'ENGINE': 'django.db.backends.sqlite3'}},
-            MIDDLEWARE_CLASSES=global_settings.MIDDLEWARE_CLASSES,  # Prevents Django 1.7 warning.
         )
+
+        try:
+            configure_kwargs['MIDDLEWARE_CLASSES'] = global_settings.MIDDLEWARE_CLASSES  # Prevents Django 1.7 warning.
+
+        except AttributeError:
+            pass  # Since Django 2.0
+
+        settings.configure(**configure_kwargs)
 
     from django import setup
     setup()
