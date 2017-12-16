@@ -1,4 +1,4 @@
-VERSION = (0, 4, 2)
+VERSION = (0, 5, 0)
 
 
 default_app_config = 'siteflags.config.SiteflagsConfig'
