@@ -15,11 +15,9 @@ Inherit you model from **siteflags.models.ModelWithFlag** and you're almost done
 
 .. code-block:: python
 
-    from django.db import models
-
     from siteflags.models import ModelWithFlag
 
-    class Article(models.Model, ModelWithFlag):
+    class Article(ModelWithFlag):
 
         FLAG_FAKE = 10
 

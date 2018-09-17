@@ -35,11 +35,10 @@ Like that:
 .. code-block:: python
 
     # myapp/models.py
-    from django.db import models
     from siteflags.models import ModelWithFlag
 
 
-    class Article(models.Model, ModelWithFlag):
+    class Article(ModelWithFlag):
 
         ... # Some model fields here.
 
