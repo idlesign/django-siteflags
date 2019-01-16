@@ -19,6 +19,12 @@ Let's say you need a kind of bookmark powered service, or a site where content i
 Requirements
 ------------
 
+.. image:: https://idlesign.github.io/lbc/py2-lbc.svg
+   :target: https://idlesign.github.io/lbc/
+   :alt: LBC Python 2
+
+----
+
 1. Python 2.7+, 3.4+
 2. Django 1.7+
 3. Django Auth contrib enabled

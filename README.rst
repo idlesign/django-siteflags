@@ -2,6 +2,11 @@ django-siteflags
 ================
 https://github.com/idlesign/django-siteflags
 
+.. image:: https://idlesign.github.io/lbc/py2-lbc.svg
+   :target: https://idlesign.github.io/lbc/
+   :alt: LBC Python 2
+
+----
 
 .. image:: https://img.shields.io/pypi/v/django-siteflags.svg
     :target: https://pypi.python.org/pypi/django-siteflags
