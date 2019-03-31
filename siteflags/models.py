@@ -55,7 +55,7 @@ class FlagBase(models.Model):
         :param User user:
         :param int status:
         :param bool allow_empty: Flag. Include results for all given types, even those without associated flags.
-        :return:
+        :rtype: dict
         """
         if not mdl_classes or (user and not user.id):
             return {}
@@ -87,7 +87,7 @@ class FlagBase(models.Model):
         :param list, QuerySet objects_list:
         :param User user:
         :param int status:
-        :return:
+        :rtype: dict
         """
         if not objects_list or (user and not user.id):
             return {}
@@ -145,7 +145,7 @@ class ModelWithFlag(models.Model):
         :param User user:
         :param int status:
         :param bool allow_empty: Flag. Include results for all given types, even those without associated flags.
-        :return:
+        :rtype: dict
         """
         return get_model_class_from_string(MODEL_FLAG).get_flags_for_types(
             mdl_classes, user=user, status=status, allow_empty=allow_empty)
@@ -159,7 +159,7 @@ class ModelWithFlag(models.Model):
         :param list, QuerySet objects_list:
         :param User user:
         :param int status:
-        :return:
+        :rtype: dict
         """
         return get_model_class_from_string(MODEL_FLAG).get_flags_for_objects(objects_list, user=user, status=status)
 
@@ -168,7 +168,7 @@ class ModelWithFlag(models.Model):
 
         :param User user: Optional user filter
         :param int status: Optional status filter
-        :return:
+        :rtype: QuerySet
         """
         filter_kwargs = {}
         update_filter_dict(filter_kwargs, user, status)
