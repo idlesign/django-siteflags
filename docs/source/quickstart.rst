@@ -37,10 +37,10 @@ Inherit your model from ``siteflags.models.ModelWithFlag`` and you're almost don
             return self.set_flag(user, note=note, status=self.FLAG_FAKE)
 
         def fake_mark_remove(self, user):
-            return self.remove_flag(user, status=self.FLAG_FAKE):
+            return self.remove_flag(user, status=self.FLAG_FAKE)
 
         def fake_mark_check(self, user):
-            return self.is_flagged(user, status=self.FLAG_FAKE):
+            return self.is_flagged(user, status=self.FLAG_FAKE)
 
         ...  # Maybe also some helper methods for FLAG_BOOKMARK.
 
