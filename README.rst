@@ -45,7 +45,7 @@ Like that:
 
     class Article(ModelWithFlag):
 
-        ... # Some model fields here.
+        ...  # Some model fields here.
 
 
 And like so:
@@ -53,24 +53,23 @@ And like so:
 .. code-block:: python
 
     # myapp/views.py
-
     from django.shortcuts import get_object_or_404
     from .models import Article
 
 
-    def article_details(request, id):
+    def article_details(request, article_id):
 
-        article = get_object_or_404(Article, pk=id)
+        article = get_object_or_404(Article, pk=article_id)
 
+        user = request.user
+        article.set_flag(user)
+        article.is_flagged(user)
+        article.remove_flag(user)
+        
         ...
 
-        # Now a user adds this article to his bookmarks.
-        article.set_flag(request.user)
 
-        ...
-
-
-Quite simple.
+Quite simple. Quite generic. Read the documentation.
 
 
 Documentation
