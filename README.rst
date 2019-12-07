@@ -20,9 +20,6 @@ https://github.com/idlesign/django-siteflags
 .. image:: https://img.shields.io/travis/idlesign/django-siteflags/master.svg
     :target: https://travis-ci.org/idlesign/django-siteflags
 
-.. image:: https://landscape.io/github/idlesign/django-siteflags/master/landscape.svg?style=flat
-   :target: https://landscape.io/github/idlesign/django-siteflags/master
-
 
 Description
 -----------

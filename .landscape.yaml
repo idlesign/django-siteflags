@@ -1,8 +1,0 @@
-strictness: medium
-uses:
-    - django
-autodetect: yes
-ignore-paths:
-    - docs
-    - siteflags/migrations
-    - siteflags/south_migrations
