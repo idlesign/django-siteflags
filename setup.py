@@ -39,7 +39,9 @@ setup(
     include_package_data=True,
     zip_safe=False,
 
-    install_requires=['django-etc'],
+    install_requires=[
+        'django-etc>=1.2.0',
+    ],
     setup_requires=[] + (['pytest-runner'] if 'test' in sys.argv else []),
 
     test_suite='tests',
@@ -59,6 +61,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'License :: OSI Approved :: BSD License'
     ],
 )

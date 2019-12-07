@@ -5,7 +5,6 @@ from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelatio
 from django.contrib.contenttypes.models import ContentType
 from django.db import models, IntegrityError
 from django.db.models.query import QuerySet
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from etc.toolbox import get_model_class_from_string
 
@@ -15,7 +14,6 @@ from .utils import get_flag_model
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
 
-@python_2_unicode_compatible
 class FlagBase(models.Model):
     """Base class for flag models.
     Flags are marks on various site entities (model instances).
