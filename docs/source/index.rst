@@ -25,8 +25,8 @@ Requirements
 
 ----
 
-1. Python 2.7+, 3.5+
-2. Django 1.8+
+1. Python 3.6+
+2. Django 2.0+
 3. Django Auth contrib enabled
 4. Django Admin contrib enabled (optional)
 
@@ -41,7 +41,6 @@ Table of Contents
     models
 
 
-
 Get involved into django-siteflags
 ----------------------------------
 
@@ -52,7 +51,6 @@ Get involved into django-siteflags
 **Translate.** If want to translate the application into your native language use Transifex: https://www.transifex.com/projects/p/django-siteflags/.
 
 **Spread the word.** If you have some tips and tricks or any other words in mind that you think might be of interest for the others — publish them.
-
 
 
 Also

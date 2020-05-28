@@ -29,7 +29,7 @@ def create_article():
     return create_article_
 
 
-class TestModelWithFlag(object):
+class TestModelWithFlag:
     
     def test_get_flags_for_types(self, user, user_create, create_comment, create_article):
 
