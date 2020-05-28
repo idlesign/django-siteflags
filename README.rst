@@ -28,9 +28,10 @@ Description
 
 So you want a user to be able to put some flags on certain site entities.
 
-Let's say you need a kind of bookmark powered service, or a site where content is flagged and moderated, or a simplified rating system or something similar.
+Let's say you need a kind of bookmark powered service, or a site where content is flagged and moderated,
+or a simplified rating system, or something similar.
 
-Inherit you model from **siteflags.models.ModelWithFlag** and you're almost done.
+Inherit you model from ``siteflags.models.ModelWithFlag`` and you're almost done.
 
 Like that:
 
