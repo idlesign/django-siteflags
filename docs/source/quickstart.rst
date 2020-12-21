@@ -107,3 +107,7 @@ There are even more generic API methods:
     SITEFLAGS_FLAG_MODEL = 'myapp.MyFlag'
 
 And that's how it's done.
+
+.. warning:: If you use a custom model and override ``Meta``, be sure to inherit it from ``FlagBase.Meta``. Otherwise you may miss ``unique_together`` constraints from the base class.
+
+
