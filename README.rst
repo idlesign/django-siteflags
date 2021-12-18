@@ -11,9 +11,6 @@ https://github.com/idlesign/django-siteflags
 .. image:: https://img.shields.io/coveralls/idlesign/django-siteflags/master.svg
     :target: https://coveralls.io/r/idlesign/django-siteflags
 
-.. image:: https://img.shields.io/travis/idlesign/django-siteflags/master.svg
-    :target: https://travis-ci.org/idlesign/django-siteflags
-
 
 Description
 -----------
