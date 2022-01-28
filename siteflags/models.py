@@ -17,6 +17,9 @@ if False:  # pragma: nocover
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
+TypeFlagsForType = List['FlagBase']
+TypeFlagsForTypes = Dict[Type[models.Model], TypeFlagsForType]
+
 
 class FlagBase(models.Model):
     """Base class for flag models.
@@ -69,7 +72,7 @@ class FlagBase(models.Model):
             allow_empty: bool = True,
             with_objects: bool = False,
 
-    ) -> Dict[Type[models.Model], Union[Dict[int, 'FlagBase'], Tuple]]:
+    ) -> TypeFlagsForTypes:
         """Returns a dictionary with flag objects associated with the given model classes (types).
         The dictionary is indexed by model classes.
         Each dict entry contains a list of associated flags.
@@ -110,7 +113,7 @@ class FlagBase(models.Model):
                 result[mdl_cls] = flags_dict[content_type_id]
 
             elif allow_empty:
-                result[mdl_cls] = tuple()
+                result[mdl_cls] = []
 
         return result
 
@@ -122,7 +125,7 @@ class FlagBase(models.Model):
             user: 'User' = None,
             status: int = None
 
-    ) -> Dict[int, Union[Dict[int, 'FlagBase'], Tuple]]:
+    ) -> Dict[int, TypeFlagsForType]:
         """Returns a dictionary with flag objects associated with the given model objects.
         The dictionary is indexed by objects IDs.
         Each dict entry contains a list of associated flag objects.
@@ -155,11 +158,7 @@ class FlagBase(models.Model):
         result = {}
 
         for obj in objects_list:
-            if obj.pk in flags_dict:
-                result[obj.pk] = flags_dict[obj.pk]
-
-            else:
-                result[obj.pk] = tuple()
+            result[obj.pk] = flags_dict.get(obj.pk, [])
 
         return result
 
@@ -192,10 +191,14 @@ class ModelWithFlag(models.Model):
             allow_empty: bool = True,
             with_objects: bool = False,
 
-    ) -> Dict[Type[models.Model], Union[Dict[int, 'FlagBase'], Tuple]]:
-        """Returns a dictionary with flag objects associated with the given model classes (types).
+    ) -> Union[TypeFlagsForTypes, TypeFlagsForType]:
+        """Returns a dictionary with flag objects associated with
+        the given model classes (types) if mdl_classes is given.
         The dictionary is indexed by model classes.
         Each dict entry contains a list of associated flag objects.
+
+        If mdl_classes is not given, returns a list of associated
+        flag objects for this very class.
 
         :param mdl_classes: Types to get flags for. If not set the current class is used.
         :param user: User filter,
@@ -235,7 +238,7 @@ class ModelWithFlag(models.Model):
             user: 'User' = None,
             status: int = None
 
-    ) -> Dict[int, Union[Dict[int, 'FlagBase'], Tuple]]:
+    ) -> Dict[int, TypeFlagsForType]:
         """Returns a dictionary with flag objects associated with the given model objects.
         The dictionary is indexed by objects IDs.
         Each dict entry contains a list of associated flag objects.
