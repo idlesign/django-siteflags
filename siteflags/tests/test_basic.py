@@ -31,7 +31,7 @@ def create_article():
 
 class TestModelWithFlag:
     
-    def test_get_flags_for_types(self, user, user_create, create_comment, create_article):
+    def test_get_flags_for_types(self, user, user_create, create_comment, create_article, db_queries):
 
         from siteflags.tests.testapp.models import Comment, Article
 
@@ -58,9 +58,19 @@ class TestModelWithFlag:
         assert len(flags[Article]) == 3
         assert len(flags[Comment]) == 3
 
-        flags = Article.get_flags_for_type()
+        db_queries.clear()
+
+        flags = Article.get_flags_for_type(with_objects=True)
         assert len(flags) == 1
         assert len(flags[Article]) == 3
+        titles = []
+
+        # The following should issue just a single sql.
+        for idx in range(2):
+            titles.append(flags[Article][idx].linked_object.title)
+
+        assert len(db_queries) == 2
+        assert len(set(titles)) == 2
 
     def test_get_flags_for_objects(self, user, user_create, create_article):
         user2 = user_create()

@@ -65,17 +65,19 @@ class FlagBase(models.Model):
             mdl_classes: List[Type[models.Model]],
             user: 'User' = None,
             status: int = None,
-            allow_empty: bool = True
+            allow_empty: bool = True,
+            with_objects: bool = False,
 
     ) -> Dict[Type[models.Model], Union[Dict[int, 'FlagBase'], Tuple]]:
         """Returns a dictionary with flag objects associated with the given model classes (types).
         The dictionary is indexed by model classes.
-        Each dict entry contains a list of associated flag objects.
+        Each dict entry contains a list of associated flags.
 
-        :param mdl_classes:
-        :param user:
-        :param status:
+        :param mdl_classes: Types to get flags for.
+        :param user: User filter,
+        :param status: Status filter
         :param allow_empty: Flag. Include results for all given types, even those without associated flags.
+        :param with_objects: Whether to fetch the flagged objects along with the flags.
 
         """
         if not mdl_classes or (user and not user.id):
@@ -85,7 +87,13 @@ class FlagBase(models.Model):
         filter_kwargs = {'content_type__in': types_for_models.values()}
         update_filter_dict(filter_kwargs, user, status)
 
-        flags = cls.objects.filter(**filter_kwargs).order_by('-time_created')
+        flags = cls.objects.filter(**filter_kwargs)
+
+        if with_objects:
+            flags = flags.prefetch_related('linked_object')
+
+        flags = flags.order_by('-time_created')
+
         flags_dict = defaultdict(list)
 
         for flag in flags:
@@ -178,22 +186,31 @@ class ModelWithFlag(models.Model):
             mdl_classes: List[Type[models.Model]] = None,
             user: 'User' = None,
             status: int = None,
-            allow_empty: bool = True
+            allow_empty: bool = True,
+            with_objects: bool = False,
 
     ) -> Dict[Type[models.Model], Union[Dict[int, 'FlagBase'], Tuple]]:
         """Returns a dictionary with flag objects associated with the given model classes (types).
         The dictionary is indexed by model classes.
         Each dict entry contains a list of associated flag objects.
 
-        :param mdl_classes:
-        :param user:
-        :param status:
+        :param mdl_classes: Types to get flags for. If not set the current class is used.
+        :param user: User filter,
+        :param status: Status filter
         :param allow_empty: Flag. Include results for all given types, even those without associated flags.
+        :param with_objects: Whether to fetch the flagged objects along with the flags.
 
         """
         model: FlagBase = get_model_class_from_string(MODEL_FLAG)
         mdl_classes = mdl_classes or [cls]
-        return model.get_flags_for_types(mdl_classes, user=user, status=status, allow_empty=allow_empty)
+
+        return model.get_flags_for_types(
+            mdl_classes,
+            user=user,
+            status=status,
+            allow_empty=allow_empty,
+            with_objects=with_objects,
+        )
 
     get_flags_for_types = get_flags_for_type  # alias
 
