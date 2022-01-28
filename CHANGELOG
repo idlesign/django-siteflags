@@ -2,8 +2,8 @@ django-siteflags changelog
 ==========================
 
 
-Unreleased
-----------
+v1.3.0 [2022-01-28]
+-------------------
 ! Basic methods now use keyword-only arguments to improve code readability.
 + Introduced 'with_objects' argument for 'ModelWithFlag.get_flags_for_type' (see #11).
 * Introduced 'ModelWithFlag.get_flags_for_type' to improve semantics.
