@@ -205,15 +205,25 @@ class ModelWithFlag(models.Model):
 
         """
         model: FlagBase = get_model_class_from_string(MODEL_FLAG)
-        mdl_classes = mdl_classes or [cls]
 
-        return model.get_flags_for_types(
+        single_type = False
+        if mdl_classes is None:
+            mdl_classes = [cls]
+            single_type = True
+            allow_empty = True
+
+        result = model.get_flags_for_types(
             mdl_classes,
             user=user,
             status=status,
             allow_empty=allow_empty,
             with_objects=with_objects,
         )
+
+        if single_type:
+            result = result[cls]
+
+        return result
 
     get_flags_for_types = get_flags_for_type  # alias
 

@@ -103,7 +103,7 @@ There are even more generic API methods:
     # And that's practically would be the same as in 'all_flags'
     # of the above mentioned view.
 
-    for flag in flags[Article]:
+    for flag in flags:
         # Since we've prefetched the linked objects with our flags
         # we can access article properties without additional DB hits.
         print(f'article: {flag.linked_object.id}')

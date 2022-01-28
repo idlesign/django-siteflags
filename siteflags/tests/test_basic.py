@@ -61,13 +61,10 @@ class TestModelWithFlag:
         db_queries.clear()
 
         flags = Article.get_flags_for_type(with_objects=True)
-        assert len(flags) == 1
-        assert len(flags[Article]) == 3
-        titles = []
+        assert len(flags) == 3
 
         # The following should issue just a single sql.
-        for idx in range(2):
-            titles.append(flags[Article][idx].linked_object.title)
+        titles = [flag.linked_object.title for flag in flags]
 
         assert len(db_queries) == 2
         assert len(set(titles)) == 2
