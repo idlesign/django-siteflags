@@ -63,6 +63,7 @@ class FlagBase(models.Model):
     def get_flags_for_types(
             cls,
             mdl_classes: List[Type[models.Model]],
+            *,
             user: 'User' = None,
             status: int = None,
             allow_empty: bool = True,
@@ -85,7 +86,7 @@ class FlagBase(models.Model):
 
         types_for_models = ContentType.objects.get_for_models(*mdl_classes, for_concrete_models=False)
         filter_kwargs = {'content_type__in': types_for_models.values()}
-        update_filter_dict(filter_kwargs, user, status)
+        update_filter_dict(filter_kwargs, user=user, status=status)
 
         flags = cls.objects.filter(**filter_kwargs)
 
@@ -117,6 +118,7 @@ class FlagBase(models.Model):
     def get_flags_for_objects(
             cls,
             objects_list: Union[QuerySet, Sequence],
+            *,
             user: 'User' = None,
             status: int = None
 
@@ -142,7 +144,7 @@ class FlagBase(models.Model):
             # Consider this list homogeneous.
             'content_type': ContentType.objects.get_for_model(objects_list[0], for_concrete_model=False)
         }
-        update_filter_dict(filter_kwargs, user, status)
+        update_filter_dict(filter_kwargs, user=user, status=status)
 
         flags = cls.objects.filter(**filter_kwargs)
         flags_dict = defaultdict(list)
@@ -184,6 +186,7 @@ class ModelWithFlag(models.Model):
     def get_flags_for_type(
             cls,
             mdl_classes: List[Type[models.Model]] = None,
+            *,
             user: 'User' = None,
             status: int = None,
             allow_empty: bool = True,
@@ -218,6 +221,7 @@ class ModelWithFlag(models.Model):
     def get_flags_for_objects(
             cls,
             objects_list: Union[QuerySet, Sequence],
+            *,
             user: 'User' = None,
             status: int = None
 
@@ -234,7 +238,7 @@ class ModelWithFlag(models.Model):
         model: FlagBase = get_model_class_from_string(MODEL_FLAG)
         return model.get_flags_for_objects(objects_list, user=user, status=status)
 
-    def get_flags(self, user: 'User' = None, status: int = None) -> Union[QuerySet, Sequence[FlagBase]]:
+    def get_flags(self, user: 'User' = None, *, status: int = None) -> Union[QuerySet, Sequence[FlagBase]]:
         """Returns flags for the object optionally filtered by status.
 
         :param user: Optional user filter
@@ -242,10 +246,10 @@ class ModelWithFlag(models.Model):
 
         """
         filter_kwargs = {}
-        update_filter_dict(filter_kwargs, user, status)
+        update_filter_dict(filter_kwargs, user=user, status=status)
         return self.flags.filter(**filter_kwargs).all()
 
-    def set_flag(self, user: 'User', note: str = None, status: int = None) -> Optional[FlagBase]:
+    def set_flag(self, user: 'User', *, note: str = None, status: int = None) -> Optional[FlagBase]:
         """Flags the object.
 
         :param user:
@@ -276,7 +280,7 @@ class ModelWithFlag(models.Model):
 
         return flag
 
-    def remove_flag(self, user: 'User' = None, status: int = None):
+    def remove_flag(self, user: 'User' = None, *, status: int = None):
         """Removes flag(s) from the object.
 
         :param user: Optional user filter
@@ -287,10 +291,10 @@ class ModelWithFlag(models.Model):
             'content_type': ContentType.objects.get_for_model(self),
             'object_id': self.id
         }
-        update_filter_dict(filter_kwargs, user, status)
+        update_filter_dict(filter_kwargs, user=user, status=status)
         get_flag_model().objects.filter(**filter_kwargs).delete()
 
-    def is_flagged(self, user: 'User' = None, status: int = None) -> int:
+    def is_flagged(self, user: 'User' = None, *, status: int = None) -> int:
         """Returns a number of times the object is flagged by a user.
 
         :param user: Optional user filter
@@ -301,11 +305,11 @@ class ModelWithFlag(models.Model):
             'content_type': ContentType.objects.get_for_model(self),
             'object_id': self.id,
         }
-        update_filter_dict(filter_kwargs, user, status)
+        update_filter_dict(filter_kwargs, user=user, status=status)
         return self.flags.filter(**filter_kwargs).count()
 
 
-def update_filter_dict(d: dict, user: Optional['User'], status: Optional[int]):
+def update_filter_dict(d: dict, *, user: Optional['User'], status: Optional[int]):
     """Helper. Updates filter dict for a queryset.
 
     :param d:
