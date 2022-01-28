@@ -1,14 +1,14 @@
 ModelWithFlag Model
 ===================
 
-**siteflags.models.ModelWithFlag** is practically all that's needed for flagging.
+``siteflags.models.ModelWithFlag`` is practically all that's needed for flagging.
 
 
 
 Methods
 -------
 
-.. py:method:: get_flags_for_types(mdl_classes, [user=None[, status=None[, allow_empty=False]]]):
+.. py:method:: get_flags_for_type([mdl_classes=None, [user=None[, status=None[, allow_empty=False]]]]):
 
     Returns a dictionary with flag objects associated with the given model classes (types).
     The dictionary is indexed by model classes.
@@ -70,15 +70,16 @@ Customization
 
 SiteFlags allows you to customize Flags model.
 
-1. Define your own `flag` model inherited from `FlagBase`.
+1. Define your own ``flag`` model inherited from ``FlagBase``.
 
-2. Now when `models.py` in your application has the definition of a custom flags model, you need
-to instruct Django to use it for your project instead of a built-in one::
+2. Now when ``models.py`` in your application has the definition of a custom flags model, you need
+to instruct Django to use it for your project instead of a built-in one:
+
+  .. code-block:: python
 
     # Somewhere in your settings.py do the following.
     # Here `myapp` is the name of your application, `MyFlag` is the names of your customized model.
-
     SITEFLAGS_FLAG_MODEL = 'myapp.MyFlag'
 
 
-3. Run `manage.py syncdb` to install your customized models into DB.
+3. Run ``manage.py makemigrations`` and ``manage.py migrate`` to install your customized models into DB.

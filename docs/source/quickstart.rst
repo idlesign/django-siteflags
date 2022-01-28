@@ -3,7 +3,7 @@ Quickstart
 
 .. note::
 
-    Do not forget to add the **siteflags** application to ``INSTALLED_APPS`` in your settings file (usually ``settings.py``)
+    Do not forget to add the ``siteflags`` application to ``INSTALLED_APPS`` in your settings file (usually ``settings.py``)
     and apply migrations.
 
 
@@ -11,7 +11,8 @@ Let's suppose we want our users to report fake articles.
 
 Inherit your model from ``siteflags.models.ModelWithFlag`` and you're almost done.
 
-**myapp/models.py:**
+myapp/models.py
+~~~~~~~~~~~~~~~
 
 
 .. code-block:: python
@@ -46,7 +47,8 @@ Inherit your model from ``siteflags.models.ModelWithFlag`` and you're almost don
 
 
 
-**myapp/views.py:**
+myapp/views.py
+~~~~~~~~~~~~~~
 
 .. code-block:: python
 
@@ -96,18 +98,20 @@ There are even more generic API methods:
     flags = ModelWithFlag.get_flags_for_objects([article, video, image])
 
     # We can also find flags of any type by type.
-    flags = ModelWithFlag.get_flags_for_types([Article])
-    # And that's practically is the same as in 'all_flags'
+    flags = Article.get_flags_for_type()
+    # And that's practically would be the same as in 'all_flags'
     # of the above mentioned view.
 
 
 .. note:: You can also customize ``Flag`` model by inheriting from ``siteflags.models.FlagBase``
-  and setting ``SITEFLAGS_FLAG_MODEL`` in your ``settings.py``, for example::
+  and setting ``SITEFLAGS_FLAG_MODEL`` in your ``settings.py``, for example:
+
+.. code-block:: python
 
     SITEFLAGS_FLAG_MODEL = 'myapp.MyFlag'
 
 And that's how it's done.
 
-.. warning:: If you use a custom model and override ``Meta``, be sure to inherit it from ``FlagBase.Meta``. Otherwise you may miss ``unique_together`` constraints from the base class.
-
+.. warning:: If you use a custom model and override ``Meta``, be sure to inherit it from ``FlagBase.Meta``.
+  Otherwise you may miss ``unique_together`` constraints from the base class.
 
