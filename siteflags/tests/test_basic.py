@@ -58,6 +58,10 @@ class TestModelWithFlag:
         assert len(flags[Article]) == 3
         assert len(flags[Comment]) == 3
 
+        flags = Article.get_flags_for_type()
+        assert len(flags) == 1
+        assert len(flags[Article]) == 3
+
     def test_get_flags_for_objects(self, user, user_create, create_article):
         user2 = user_create()
 

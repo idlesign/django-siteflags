@@ -2,6 +2,11 @@ django-siteflags changelog
 ==========================
 
 
+Unreleased
+----------
+* Introduced 'ModelWithFlag.get_flags_for_type' to improve semantics.
+
+
 v1.2.0 [2020-05-28]
 -------------------
 ! Dropped support for Python 2 and 3.5.

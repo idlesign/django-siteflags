@@ -173,9 +173,9 @@ class ModelWithFlag(models.Model):
         abstract = True
 
     @classmethod
-    def get_flags_for_types(
+    def get_flags_for_type(
             cls,
-            mdl_classes: List[Type[models.Model]],
+            mdl_classes: List[Type[models.Model]] = None,
             user: 'User' = None,
             status: int = None,
             allow_empty: bool = True
@@ -192,7 +192,10 @@ class ModelWithFlag(models.Model):
 
         """
         model: FlagBase = get_model_class_from_string(MODEL_FLAG)
+        mdl_classes = mdl_classes or [cls]
         return model.get_flags_for_types(mdl_classes, user=user, status=status, allow_empty=allow_empty)
+
+    get_flags_for_types = get_flags_for_type  # alias
 
     @classmethod
     def get_flags_for_objects(
