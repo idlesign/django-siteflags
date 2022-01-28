@@ -98,9 +98,15 @@ There are even more generic API methods:
     flags = ModelWithFlag.get_flags_for_objects([article, video, image])
 
     # We can also find flags of any type by type.
-    flags = Article.get_flags_for_type()
+    # Let's also prefetch Article objects (with_objects=True).
+    flags = Article.get_flags_for_type(with_objects=True)
     # And that's practically would be the same as in 'all_flags'
     # of the above mentioned view.
+
+    for flag in flags[Article]:
+        # Since we've prefetched the linked objects with our flags
+        # we can access article properties without additional DB hits.
+        print(f'article: {flag.linked_object.id}')
 
 
 .. note:: You can also customize ``Flag`` model by inheriting from ``siteflags.models.FlagBase``
