@@ -314,6 +314,9 @@ class ModelWithFlag(models.Model):
         :param status: Optional status filter
 
         """
+        if user and not user.id:
+            return False
+
         filter_kwargs = {
             'content_type': ContentType.objects.get_for_model(self),
             'object_id': self.id,
