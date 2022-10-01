@@ -1,5 +1,7 @@
 from uuid import uuid4
 
+from django.contrib.auth.models import AnonymousUser
+
 import pytest
 
 from siteflags.models import ModelWithFlag
@@ -30,7 +32,7 @@ def create_article():
 
 
 class TestModelWithFlag:
-    
+
     def test_get_flags_for_types(self, user, user_create, create_comment, create_article, db_queries):
 
         from siteflags.tests.testapp.models import Comment, Article
@@ -106,7 +108,7 @@ class TestModelWithFlag:
         assert flag.user == user
         assert flag.note == 'anote'
         assert flag.status == 10
-        
+
     def test_get_flags(self, user, user_create, create_article):
         article = create_article()
 
@@ -136,6 +138,9 @@ class TestModelWithFlag:
 
         assert not article.is_flagged(user, status=12)
         assert article.is_flagged(user, status=11)
+
+        assert not article.is_flagged(AnonymousUser(), status=12)
+        assert not article.is_flagged(AnonymousUser(), status=11)
 
     def test_remove_flag(self, user, user_create, create_article):
         article = create_article()

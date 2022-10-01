@@ -314,7 +314,7 @@ class ModelWithFlag(models.Model):
         :param status: Optional status filter
 
         """
-        if user and not user.id:
+        if user and user.is_anonymous:
             return False
 
         filter_kwargs = {
