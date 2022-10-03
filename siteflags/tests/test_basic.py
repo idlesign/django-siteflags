@@ -1,7 +1,5 @@
 from uuid import uuid4
 
-from django.contrib.auth.models import AnonymousUser
-
 import pytest
 
 from siteflags.models import ModelWithFlag
@@ -139,8 +137,9 @@ class TestModelWithFlag:
         assert not article.is_flagged(user, status=12)
         assert article.is_flagged(user, status=11)
 
-        assert not article.is_flagged(AnonymousUser(), status=12)
-        assert not article.is_flagged(AnonymousUser(), status=11)
+        user3 = user_create(anonymous=True)
+        assert not article.is_flagged(user3, status=12)
+        assert not article.is_flagged(user3, status=11)
 
     def test_remove_flag(self, user, user_create, create_article):
         article = create_article()
