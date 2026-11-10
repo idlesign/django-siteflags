@@ -1,3 +1,0 @@
-[run]
-include = siteflags/*
-omit = siteflags/migrations/*, siteflags/tests/*, siteflags/admin.py, siteflags/config.py
