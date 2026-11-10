@@ -1,31 +1,25 @@
-django-siteflags installation
-=============================
+# django-siteflags installation
 
+Python `pip` package is required to install `django-siteflags`.
 
-Python ``pip`` package is required to install ``django-siteflags``.
+## From sources
 
+Use the following command line to install `django-siteflags` from sources directory (containing `pyproject.toml`):
 
-From sources
-------------
+```shell
+pip install .
+```
 
-Use the following command line to install ``django-siteflags`` from sources directory (containing setup.py):
+## From PyPI
 
-    pip install .
+Alternatively you can install `django-siteflags` from PyPI:
 
-or
-
-    python setup.py install
-
-
-From PyPI
----------
-
-Alternatively you can install ``django-siteflags`` from PyPI:
-
-    pip install django-siteflags
-
+```shell
+pip install django-siteflags
+```
 
 Use `-U` flag for upgrade:
 
-    pip install -U django-siteflags
-
+```shell
+pip install -U django-siteflags
+```

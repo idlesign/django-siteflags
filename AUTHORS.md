@@ -1,17 +1,11 @@
-django-siteflags authors
-========================
+# django-siteflags authors
 
 Created by Igor `idle sign` Starikov.
 
+## Contributors
 
-Contributors
-------------
+* BoPeng <https://github.com/BoPeng>
 
-BoPeng <https://github.com/BoPeng>
+## Translators
 
-
-
-Translators
------------
-
-Russian: Igor Starikov <https://www.transifex.com/accounts/profile/idlesign/>
+* Russian: Igor Starikov <https://www.transifex.com/accounts/profile/idlesign/>

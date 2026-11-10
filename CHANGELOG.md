@@ -1,66 +1,46 @@
-django-siteflags changelog
-==========================
+# django-siteflags changelog
 
+### Unreleased
+* ** Fixed model/migrations drift (explicit on_delete for foreign keys; id field pinned to AutoField).
 
-v1.3.0 [2022-01-28]
--------------------
-! Basic methods now use keyword-only arguments to improve code readability.
-+ Introduced 'with_objects' argument for 'ModelWithFlag.get_flags_for_type' (see #11).
-* Introduced 'ModelWithFlag.get_flags_for_type' to improve semantics.
+### v1.3.0 [2022-01-28]
+* !! Basic methods now use keyword-only arguments to improve code readability.
+* ++ Introduced 'with_objects' argument for 'ModelWithFlag.get_flags_for_type' (see #11).
+* ** Introduced 'ModelWithFlag.get_flags_for_type' to improve semantics.
 
+### v1.2.0 [2020-05-28]
+* !! Dropped support for Python 2 and 3.5.
+* ** Dropped QA for Django2.0.
 
-v1.2.0 [2020-05-28]
--------------------
-! Dropped support for Python 2 and 3.5.
-* Dropped QA for Django2.0.
+### v1.1.0 [2019-12-07]
+* !! Dropped QA for Django 1.7.
+* !! Dropped QA for Python 2.
+* ++ Add Django 3.0 compatibility.
 
+### v1.0.0
+* !! Dropped QA for Python 3.4.
+* ** No functional changes. Celebrating 1.0.0.
 
-v1.1.0 [2019-12-07]
--------------------
-! Dropped QA for Django 1.7.
-! Dropped QA for Python 2.
-+ Add Django 3.0 compatibility.
+### v0.5.0
+* ++ Django 2.0 basic compatibility.
+* ** Dropped support for Python<3.4 and Django<1.7.
 
+### v0.4.2
+* ** Package distribution fix.
 
-v1.0.0
-------
-! Dropped QA for Python 3.4.
-* No functional changes. Celebrating 1.0.0.
+### v0.4.1
+* ** Django 1.9 compatibility improvements.
 
+### v0.4.0
+* ** IMPORTANT: Added migrations. Use `migrate siteflags --fake`.
+* ++ Added `allow_empty` parameter support for get_flags_for_types() methods.
 
-v0.5.0
-------
-+ Django 2.0 basic compatibility.
-* Dropped support for Python<3.4 and Django<1.7.
+### v0.3.0
+* ++ Implemented ModelWithFlag.get_flags_for_types().
+* ++ Django 1.7 ready.
 
+### v0.2.0
+* ++ Implemented ModelWithFlag.get_flags_for_objects().
 
-v0.4.2
-------
-* Package distribution fix.
-
-
-v0.4.1
-------
-* Django 1.9 compatibility improvements.
-
-
-v0.4.0
-------
-* IMPORTANT: Added migrations. Use `migrate siteflags --fake`.
-+ Added `allow_empty` parameter support for get_flags_for_types() methods.
-
-
-v0.3.0
-------
-+ Implemented ModelWithFlag.get_flags_for_types().
-+ Django 1.7 ready.
-
-
-v0.2.0
-------
-+ Implemented ModelWithFlag.get_flags_for_objects().
-
-
-v0.1.0
-------
-+ Basic functionality.
+### v0.1.0
+* ++ Basic functionality.

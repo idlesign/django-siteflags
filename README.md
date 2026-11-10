@@ -1,19 +1,12 @@
-django-siteflags
-================
-https://github.com/idlesign/django-siteflags
+# django-siteflags
 
-.. image:: https://img.shields.io/pypi/v/django-siteflags.svg
-    :target: https://pypi.python.org/pypi/django-siteflags
+<https://github.com/idlesign/django-siteflags>
 
-.. image:: https://img.shields.io/pypi/l/django-siteflags.svg
-    :target: https://pypi.python.org/pypi/django-siteflags
+[![release](https://img.shields.io/pypi/v/django-siteflags.svg)](https://pypi.python.org/pypi/django-siteflags)
+[![lic](https://img.shields.io/pypi/l/django-siteflags.svg)](https://pypi.python.org/pypi/django-siteflags)
+[![coverage](https://img.shields.io/coveralls/idlesign/django-siteflags/master.svg)](https://coveralls.io/r/idlesign/django-siteflags)
 
-.. image:: https://img.shields.io/coveralls/idlesign/django-siteflags/master.svg
-    :target: https://coveralls.io/r/idlesign/django-siteflags
-
-
-Description
------------
+## Description
 
 *Reusable application for Django allowing users to flag/bookmark site objects*
 
@@ -22,46 +15,42 @@ So you want a user to be able to put some flags on certain site entities.
 Let's say you need a kind of bookmark powered service, or a site where content is flagged and moderated,
 or a simplified rating system, or something similar.
 
-Inherit you model from ``siteflags.models.ModelWithFlag`` and you're almost done.
+Inherit you model from `siteflags.models.ModelWithFlag` and you're almost done.
 
 Like that:
 
-.. code-block:: python
+```python
+# myapp/models.py
+from siteflags.models import ModelWithFlag
 
-    # myapp/models.py
-    from siteflags.models import ModelWithFlag
 
+class Article(ModelWithFlag):
 
-    class Article(ModelWithFlag):
-
-        ...  # Some model fields here.
-
+    ...  # Some model fields here.
+```
 
 And like so:
 
-.. code-block:: python
+```python
+# myapp/views.py
+from django.shortcuts import get_object_or_404
+from .models import Article
 
-    # myapp/views.py
-    from django.shortcuts import get_object_or_404
-    from .models import Article
 
+def article_details(request, article_id):
 
-    def article_details(request, article_id):
+    article = get_object_or_404(Article, pk=article_id)
 
-        article = get_object_or_404(Article, pk=article_id)
+    user = request.user
+    article.set_flag(user)
+    article.is_flagged(user)
+    article.remove_flag(user)
 
-        user = request.user
-        article.set_flag(user)
-        article.is_flagged(user)
-        article.remove_flag(user)
-        
-        ...
-
+    ...
+```
 
 Quite simple. Quite generic. Read the documentation.
 
+## Documentation
 
-Documentation
--------------
-
-http://django-siteflags.readthedocs.org/
+<https://django-siteflags.readthedocs.io/>

@@ -1,14 +1,12 @@
-ModelWithFlag Model
-===================
+# ModelWithFlag Model
 
-``siteflags.models.ModelWithFlag`` is practically all that's needed for flagging.
-
+`siteflags.models.ModelWithFlag` is practically all that's needed for flagging.
 
 
-Methods
--------
 
-.. py:method:: get_flags_for_type([mdl_classes=None, [user=None[, status=None[, allow_empty=False]]]]):
+## Methods
+
+### `get_flags_for_type([mdl_classes=None, [user=None[, status=None[, allow_empty=False]]]]):`
 
     Returns a dictionary with flag objects associated with the given model classes (types).
     The dictionary is indexed by model classes.
@@ -20,7 +18,7 @@ Methods
     :param bool allow_empty: Include results for all given types, even those without associated flags.
 
 
-.. py:method:: get_flags_for_objects(objects_list, [user=None[, status=None]]):
+### `get_flags_for_objects(objects_list, [user=None[, status=None]]):`
 
     Returns a dictionary with flag objects associated with the given objects.
     The dictionary is indexed by objects IDs.
@@ -31,7 +29,7 @@ Methods
     :param int status: Optional status filter
 
 
-.. py:method:: get_flags([user=None[, status=None]]):
+### `get_flags([user=None[, status=None]]):`
 
     Returns flags for the object optionally filtered by user and/or status.
 
@@ -39,7 +37,7 @@ Methods
     :param int status: Optional status filter
 
 
-.. py:method:: set_flag(user[, note=None[, status=None]]):
+### `set_flag(user[, note=None[, status=None]]):`
 
     Flags the object.
 
@@ -48,7 +46,7 @@ Methods
     :param int status: Optional status integer (the meaning is defined by a developer).
 
 
-.. py:method:: remove_flag([user=None[, status=None]]):
+### `remove_flag([user=None[, status=None]]):`
 
     Removes flag(s) from the object.
 
@@ -56,7 +54,7 @@ Methods
     :param int status: Optional status filter
 
 
-.. py:method:: is_flagged([user=None[, status=None]]):
+### `is_flagged([user=None[, status=None]]):`
 
     Returns boolean whether the objects is flagged by a user.
 
@@ -65,21 +63,18 @@ Methods
 
 
 
-Customization
--------------
+## Customization
 
 SiteFlags allows you to customize Flags model.
 
-1. Define your own ``flag`` model inherited from ``FlagBase``.
+1. Define your own `flag` model inherited from `FlagBase`.
 
-2. Now when ``models.py`` in your application has the definition of a custom flags model, you need
+2. Now when `models.py` in your application has the definition of a custom flags model, you need
 to instruct Django to use it for your project instead of a built-in one:
 
-  .. code-block:: python
-
-    # Somewhere in your settings.py do the following.
-    # Here `myapp` is the name of your application, `MyFlag` is the names of your customized model.
-    SITEFLAGS_FLAG_MODEL = 'myapp.MyFlag'
-
-
-3. Run ``manage.py makemigrations`` and ``manage.py migrate`` to install your customized models into DB.
+  ```python
+  # Somewhere in your settings.py do the following.
+  # Here `myapp` is the name of your application, `MyFlag` is the names of your customized model.
+  SITEFLAGS_FLAG_MODEL = 'myapp.MyFlag'
+  ```
+3. Run `manage.py makemigrations` and `manage.py migrate` to install your customized models into DB.

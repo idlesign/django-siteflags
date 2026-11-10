@@ -7,3 +7,4 @@ class SiteflagsConfig(AppConfig):
 
     name = 'siteflags'
     verbose_name = _('Site Flags')
+    default_auto_field = 'django.db.models.AutoField'

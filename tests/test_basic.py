@@ -7,7 +7,7 @@ from siteflags.models import ModelWithFlag
 
 @pytest.fixture
 def create_comment():
-    from siteflags.tests.testapp.models import Comment
+    from tests.testapp.models import Comment
 
     def create_comment_():
         comment = Comment(title='comment%s' % uuid4().hex)
@@ -19,7 +19,7 @@ def create_comment():
 
 @pytest.fixture
 def create_article():
-    from siteflags.tests.testapp.models import Article
+    from tests.testapp.models import Article
 
     def create_article_():
         article = Article(title='article%s' % uuid4().hex)
@@ -33,7 +33,7 @@ class TestModelWithFlag:
 
     def test_get_flags_for_types(self, user, user_create, create_comment, create_article, db_queries):
 
-        from siteflags.tests.testapp.models import Comment, Article
+        from tests.testapp.models import Comment, Article
 
         user2 = user_create()
 

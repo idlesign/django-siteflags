@@ -1,5 +1,6 @@
 from collections import defaultdict
-from typing import List, Type, Dict, Union, Tuple, Optional, Sequence
+from typing import List, Type, Dict, Union, Tuple, Optional
+from collections.abc import Sequence
 
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
@@ -17,8 +18,8 @@ if False:  # pragma: nocover
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
-TypeFlagsForType = List['FlagBase']
-TypeFlagsForTypes = Dict[Type[models.Model], TypeFlagsForType]
+TypeFlagsForType = list['FlagBase']
+TypeFlagsForTypes = dict[type[models.Model], TypeFlagsForType]
 
 
 class FlagBase(models.Model):
@@ -65,7 +66,7 @@ class FlagBase(models.Model):
     @classmethod
     def get_flags_for_types(
             cls,
-            mdl_classes: List[Type[models.Model]],
+            mdl_classes: list[type[models.Model]],
             *,
             user: 'User' = None,
             status: int = None,
@@ -125,7 +126,7 @@ class FlagBase(models.Model):
             user: 'User' = None,
             status: int = None
 
-    ) -> Dict[int, TypeFlagsForType]:
+    ) -> dict[int, TypeFlagsForType]:
         """Returns a dictionary with flag objects associated with the given model objects.
         The dictionary is indexed by objects IDs.
         Each dict entry contains a list of associated flag objects.
@@ -184,7 +185,7 @@ class ModelWithFlag(models.Model):
     @classmethod
     def get_flags_for_type(
             cls,
-            mdl_classes: List[Type[models.Model]] = None,
+            mdl_classes: list[type[models.Model]] = None,
             *,
             user: 'User' = None,
             status: int = None,
@@ -238,7 +239,7 @@ class ModelWithFlag(models.Model):
             user: 'User' = None,
             status: int = None
 
-    ) -> Dict[int, TypeFlagsForType]:
+    ) -> dict[int, TypeFlagsForType]:
         """Returns a dictionary with flag objects associated with the given model objects.
         The dictionary is indexed by objects IDs.
         Each dict entry contains a list of associated flag objects.
@@ -262,7 +263,7 @@ class ModelWithFlag(models.Model):
         update_filter_dict(filter_kwargs, user=user, status=status)
         return self.flags.filter(**filter_kwargs).all()
 
-    def set_flag(self, user: 'User', *, note: str = None, status: int = None) -> Optional[FlagBase]:
+    def set_flag(self, user: 'User', *, note: str = None, status: int = None) -> FlagBase | None:
         """Flags the object.
 
         :param user:
@@ -325,7 +326,7 @@ class ModelWithFlag(models.Model):
         return self.flags.filter(**filter_kwargs).count()
 
 
-def update_filter_dict(d: dict, *, user: Optional['User'], status: Optional[int]):
+def update_filter_dict(d: dict, *, user: Optional['User'], status: int | None):
     """Helper. Updates filter dict for a queryset.
 
     :param d:
