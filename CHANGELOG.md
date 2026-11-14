@@ -1,6 +1,6 @@
 # django-siteflags changelog
 
-### Unreleased
+### v1.3.1 [2026-11-14]
 * ** Fixed model/migrations drift (explicit on_delete for foreign keys; id field pinned to AutoField).
 
 ### v1.3.0 [2022-01-28]
